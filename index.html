@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>pixlskin — minecraft texture maker</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app">
+    <header class="header">
+      <a href="#" class="brand brand-home">
+        <span class="brand-mark"></span>
+        <span class="brand-word"><span class="ember">pixl</span>skin</span>
+      </a>
+      <span class="brand-sub" id="brand-sub">// minecraft texture maker</span>
+      <div class="header-spacer"></div>
+      <div class="header-right">
+        <span class="kbd">v 0.2</span>
+        <span>• png / zip export</span>
+      </div>
+    </header>
+    <div class="warm-strip"></div>
+
+    <!-- ===================== HOME SCREEN ===================== -->
+    <section id="home-screen" class="screen active" data-screen-label="01 Home">
+      <div class="home-wrap">
+        <div class="home-hero">
+          <div class="home-hero-text">
+            <span class="eyebrow">paint, preview, ship</span>
+            <h1>
+              the <span class="pixel">minecraft</span><br>
+              <span class="ember">texture</span> studio.
+            </h1>
+            <p class="lead">
+              skins for players. textures for blocks. unfolded UV atlases,
+              live 3d previews, pixel-perfect export. one tool, every kind of mob.
+            </p>
+            <div class="home-cta-row">
+              <button class="btn btn-primary btn-lg" id="btn-start">
+                pick a model →
+              </button>
+              <a class="btn btn-ghost btn-lg" href="#" id="btn-docs" onclick="event.preventDefault()">how it works</a>
+            </div>
+            <div class="home-stats">
+              <div class="stat"><span class="num">2</span><span class="lbl">models ready</span></div>
+              <div class="stat"><span class="num">8</span><span class="lbl">coming soon</span></div>
+              <div class="stat"><span class="num">4096</span><span class="lbl">paintable pixels per skin</span></div>
+            </div>
+          </div>
+          <div class="home-hero-art" aria-hidden="true">
+            <div class="hero-grid" id="home-hero-grid">
+              <!-- spinning model tiles injected by app.js (player + block) -->
+              <div class="hero-tile p"  data-hero-slot="player"></div>
+              <div class="hero-tile p2" data-hero-slot="block"></div>
+              <div class="hero-tile p3 empty"></div>
+              <div class="hero-tile p4 empty"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Category cards -->
+        <div class="home-section">
+          <div class="section-label">pick a category</div>
+          <div class="home-cats">
+            <button class="home-cat-card" data-cat="players">
+              <div class="cat-art cat-art-players">
+                <span class="sprite-player">
+                  <span class="sp-head"></span>
+                  <span class="sp-body"></span>
+                  <span class="sp-arm sp-arm-l"></span>
+                  <span class="sp-arm sp-arm-r"></span>
+                  <span class="sp-leg sp-leg-l"></span>
+                  <span class="sp-leg sp-leg-r"></span>
+                </span>
+              </div>
+              <div class="cat-meta">
+                <div class="cat-name">players</div>
+                <div class="cat-info">64×64 skins · steve · alex</div>
+              </div>
+              <span class="cat-arrow">→</span>
+            </button>
+            <button class="home-cat-card" data-cat="blocks">
+              <div class="cat-art cat-art-blocks">
+                <span class="iso-cube">
+                  <span class="iso-face iso-top"></span>
+                  <span class="iso-face iso-left"></span>
+                  <span class="iso-face iso-right"></span>
+                </span>
+              </div>
+              <div class="cat-meta">
+                <div class="cat-name">blocks</div>
+                <div class="cat-info">16×16 cubes · unique-face export</div>
+              </div>
+              <span class="cat-arrow">→</span>
+            </button>
+            <button class="home-cat-card" data-cat="mobs">
+              <div class="cat-art cat-art-mobs empty"></div>
+              <div class="cat-meta">
+                <div class="cat-name">mobs</div>
+                <div class="cat-info">creeper · zombie · pig (soon)</div>
+              </div>
+              <span class="cat-arrow">→</span>
+            </button>
+            <button class="home-cat-card" data-cat="items">
+              <div class="cat-art cat-art-items empty"></div>
+              <div class="cat-meta">
+                <div class="cat-name">items</div>
+                <div class="cat-info">16×16 sprites · swords · tools (soon)</div>
+              </div>
+              <span class="cat-arrow">→</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Feature strip -->
+        <div class="home-section">
+          <div class="section-label">what's in the box</div>
+          <div class="feature-grid">
+            <div class="feature">
+              <span class="feat-glyph">◐</span>
+              <h3>live 3d preview</h3>
+              <p>strokes appear on the model the same frame you paint them. drag to orbit, scroll to zoom.</p>
+            </div>
+            <div class="feature">
+              <span class="feat-glyph">✦</span>
+              <h3>paint on the model</h3>
+              <p>left-click any face on the 3d model — pixlskin raycasts the UV and writes the right texel.</p>
+            </div>
+            <div class="feature">
+              <span class="feat-glyph">▣</span>
+              <h3>unique-face export</h3>
+              <p>blocks export as a zip. identical faces (e.g. all 4 sides) collapse to one file: side.png.</p>
+            </div>
+            <div class="feature">
+              <span class="feat-glyph">↻</span>
+              <h3>region-aware fill</h3>
+              <p>flood-fill stays inside the UV rectangle you clicked. no more bleed across face seams.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== SELECT SCREEN ===================== -->
+    <section id="select-screen" class="screen" data-screen-label="02 Select">
+      <div class="select-wrap">
+        <div class="select-hero">
+          <div>
+            <button class="back-link" id="btn-select-home">← home</button>
+            <h1>pick a <span class="pixel">model</span></h1>
+            <p class="lead">each model has its own UV layout and a default texture you can start from.</p>
+          </div>
+          <div class="select-tabs">
+            <button class="cat-tab active" data-cat="all">all</button>
+            <button class="cat-tab" data-cat="players">players</button>
+            <button class="cat-tab" data-cat="blocks">blocks</button>
+            <button class="cat-tab" data-cat="mobs">mobs</button>
+            <button class="cat-tab" data-cat="items">items</button>
+          </div>
+        </div>
+        <div class="model-grid" id="model-grid"></div>
+      </div>
+    </section>
+
+    <!-- ===================== EDITOR SCREEN ===================== -->
+    <section id="editor-screen" class="screen" data-screen-label="03 Editor">
+
+      <!-- left: 3D viewer -->
+      <div class="viewer-pane">
+        <div class="viewer-topbar">
+          <div class="crumb">
+            <a id="crumb-home" href="#">home</a>
+            <span class="sep">/</span>
+            <a id="crumb-back">models</a>
+            <span class="sep">/</span>
+            <span class="cur" id="crumb-model">player • untitled.png</span>
+          </div>
+          <div class="group" style="display:flex; gap:14px; align-items:center;">
+            <span><span style="color:var(--mint-500)">●</span> live</span>
+            <span id="tex-size-chip">64×64 rgba</span>
+          </div>
+        </div>
+        <div class="viewer-stage">
+          <canvas id="three-canvas"></canvas>
+
+          <div class="viewer-overlay tl">
+            <div class="chip"><span class="dot"></span> rendering</div>
+            <div class="chip" style="margin-top:6px;">left · paint &nbsp; middle · rotate &nbsp; wheel · zoom</div>
+          </div>
+
+          <div class="view-controls">
+            <button id="btn-autorotate" class="active" title="auto-rotate">↻</button>
+            <span id="pose-controls" style="display:inline-flex; gap:6px;">
+              <button class="pose-btn active" data-pose="stand" title="stand">人</button>
+              <button class="pose-btn" data-pose="tpose" title="T-pose">T</button>
+              <button class="pose-btn" data-pose="walk" title="walk">→</button>
+            </span>
+            <button id="btn-reset-view" title="reset view">⊙</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- right: editor -->
+      <div class="editor-pane">
+        <!-- TOOLS -->
+        <div class="editor-section">
+          <h3><span class="num">1</span> tools</h3>
+          <div class="tools-row">
+            <button class="tool-btn active" data-tool="pencil" title="pencil — paint a pixel (B)">
+              <svg viewBox="0 0 24 24"><path d="M4 20l3-.7L18.3 8 16 5.7 4.7 17 4 20z" fill="currentColor" fill-opacity="0.15"/><path d="M4 20l3-.7L18.3 8 16 5.7 4.7 17 4 20z"/><path d="M14 8l2 2"/><path d="M16 5.7l1.6-1.6a1.5 1.5 0 0 1 2.1 0l.6.6a1.5 1.5 0 0 1 0 2.1L18.3 8"/></svg>
+              <span class="label-strip">pencil</span><span class="kbd-hint">B</span>
+            </button>
+            <button class="tool-btn" data-tool="eraser" title="eraser — erase to transparent (E)">
+              <svg viewBox="0 0 24 24"><path d="M14 4l6 6-9 9H5v-6l9-9z" fill="currentColor" fill-opacity="0.15"/><path d="M14 4l6 6-9 9H5v-6l9-9z"/><line x1="8" y1="10" x2="14" y2="16"/><line x1="4" y1="21" x2="21" y2="21"/></svg>
+              <span class="label-strip">eraser</span><span class="kbd-hint">E</span>
+            </button>
+            <button class="tool-btn" data-tool="bucket" title="fill — flood fill a region (G)">
+              <svg viewBox="0 0 24 24"><path d="M5 11L11 5l8 8-6 6-8-8z" fill="currentColor" fill-opacity="0.15"/><path d="M5 11L11 5l8 8-6 6-8-8z"/><path d="M5 11h14"/><circle cx="20" cy="17" r="1.6" fill="currentColor"/><path d="M9 4l2 1"/></svg>
+              <span class="label-strip">fill</span><span class="kbd-hint">G</span>
+            </button>
+            <button class="tool-btn" data-tool="line" title="line — draw a straight line (L)">
+              <svg viewBox="0 0 24 24"><circle cx="5" cy="19" r="2" fill="currentColor"/><circle cx="19" cy="5" r="2" fill="currentColor"/><line x1="6" y1="18" x2="18" y2="6"/></svg>
+              <span class="label-strip">line</span><span class="kbd-hint">L</span>
+            </button>
+            <button class="tool-btn" data-tool="picker" title="eyedropper — pick a color from the canvas (I)">
+              <svg viewBox="0 0 24 24"><rect x="14" y="3" width="6" height="3.5" rx="1" transform="rotate(45 17 4.75)" fill="currentColor" fill-opacity="0.2"/><path d="M16.5 4.5l3 3"/><path d="M14 7l3 3-9 9H5v-3l9-9z" fill="currentColor" fill-opacity="0.15"/><path d="M14 7l3 3-9 9H5v-3l9-9z"/><path d="M11 10l3 3"/></svg>
+              <span class="label-strip">pick</span><span class="kbd-hint">I</span>
+            </button>
+            <button class="tool-btn" id="toggle-mirror" title="mirror — paint symmetrically across the X axis (M)">
+              <svg viewBox="0 0 24 24"><line x1="12" y1="3" x2="12" y2="21" stroke-dasharray="2 2"/><path d="M4 18l0-12l7 6z" fill="currentColor" fill-opacity="0.15"/><path d="M4 18l0-12l7 6z"/><path d="M20 18l0-12l-7 6z" fill="currentColor" fill-opacity="0.15"/><path d="M20 18l0-12l-7 6z"/></svg>
+              <span class="label-strip">mirror</span><span class="kbd-hint">M</span>
+            </button>
+          </div>
+          <div class="brush-row">
+            <span class="label">brush</span>
+            <button class="brush-btn active" data-size="1">1</button>
+            <button class="brush-btn" data-size="2">2</button>
+            <button class="brush-btn" data-size="3">3</button>
+            <button class="brush-btn" data-size="4">4</button>
+            <span style="flex:1"></span>
+            <button class="tool-btn" id="toggle-guides" style="width:auto; padding:0 10px; height:28px;" title="show region guides">
+              <span style="font-family:var(--font-mono); font-size:11px;">guides</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- COLOR -->
+        <div class="editor-section">
+          <h3><span class="num">2</span> color</h3>
+          <div class="color-row">
+            <label class="color-current">
+              <span class="swatch" id="color-swatch"></span>
+              <input type="color" id="color-picker-native" value="#FF6A3D">
+            </label>
+            <div class="color-fields">
+              <input type="text" class="hex-input" id="hex-input" value="#FF6A3D" maxlength="7">
+              <div class="alpha-row">
+                <span>α</span>
+                <input type="range" id="alpha-slider" min="0" max="255" value="255">
+                <span id="alpha-val">255</span>
+              </div>
+            </div>
+          </div>
+          <div class="hsl-grid">
+            <span class="hsl-label">H</span>
+            <input type="range" id="hue-slider" class="hue-slider" min="0" max="360" step="1" value="14">
+            <span class="hsl-val" id="hue-val">14°</span>
+            <span class="hsl-label">S</span>
+            <input type="range" id="sat-slider" class="sat-slider" min="0" max="100" step="1" value="100">
+            <span class="hsl-val" id="sat-val">100%</span>
+            <span class="hsl-label">L</span>
+            <input type="range" id="lit-slider" class="lit-slider" min="0" max="100" step="1" value="62">
+            <span class="hsl-val" id="lit-val">62%</span>
+          </div>
+          <div class="swatches" id="swatches"></div>
+        </div>
+
+        <!-- TEXTURE -->
+        <div class="editor-section grow">
+          <div class="tex-toolbar">
+            <h3 style="margin:0;"><span class="num">3</span> texture</h3>
+            <div class="layer-toggles">
+              <button class="layer-toggle active" id="layer-base" title="show base layer (skin + clothing)">
+                <svg viewBox="0 0 24 24" class="lt-icon"><rect x="9" y="2" width="6" height="6"/><rect x="8" y="9" width="8" height="8"/><rect x="5" y="9" width="3" height="8"/><rect x="16" y="9" width="3" height="8"/><rect x="9" y="18" width="2" height="4"/><rect x="13" y="18" width="2" height="4"/></svg>
+                <span>base</span>
+              </button>
+              <button class="layer-toggle" id="layer-overlay" title="show armor / overlay layer (hat, jacket, sleeves, pants)">
+                <svg viewBox="0 0 24 24" class="lt-icon"><path d="M5 8L9 4h6l4 4-3 2v10H8V10L5 8z"/><line x1="12" y1="4" x2="12" y2="11"/></svg>
+                <span>armor</span>
+              </button>
+            </div>
+          </div>
+          <div class="parts-row" id="parts-row">
+            <span class="parts-label">parts</span>
+            <button class="part-chip active" data-part="head"     title="head">HD</button>
+            <button class="part-chip active" data-part="body"     title="body">BD</button>
+            <button class="part-chip active" data-part="rightArm" title="right arm">RA</button>
+            <button class="part-chip active" data-part="leftArm"  title="left arm">LA</button>
+            <button class="part-chip active" data-part="rightLeg" title="right leg">RL</button>
+            <button class="part-chip active" data-part="leftLeg"  title="left leg">LL</button>
+            <span style="flex:1"></span>
+            <button class="part-chip" id="btn-fill-all" title="fill the whole texture with the current color">fill all</button>
+          </div>
+          <div class="tex-canvas-wrap">
+            <canvas id="tex-canvas" class="pixelated"></canvas>
+            <canvas id="tex-overlay"></canvas>
+          </div>
+          <div class="tex-footer">
+            <span>texel: <span id="coord" class="coord">—,—</span></span>
+            <span>
+              <button class="layer-toggle" id="btn-undo" style="margin-right:4px">↶ undo</button>
+              <button class="layer-toggle" id="btn-redo">↷ redo</button>
+            </span>
+          </div>
+        </div>
+
+        <!-- ACTION FOOTER -->
+        <div class="action-footer">
+          <button class="btn btn-ghost" id="btn-back">← models</button>
+          <button class="btn btn-ghost" id="btn-import">import</button>
+          <button class="btn btn-ghost" id="btn-clear">clear</button>
+          <button class="btn btn-ghost" id="btn-reset-skin">reset</button>
+          <button class="btn btn-primary" id="btn-export"><span id="btn-export-label">export png ↓</span></button>
+          <input type="file" id="file-import" class="hidden" accept="image/png">
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ===================== CONFIRM MODAL ===================== -->
+  <div class="modal-scrim" id="confirm-modal" role="dialog" aria-modal="true" aria-labelledby="confirm-title">
+    <div class="modal">
+      <div class="modal-head">
+        <span class="glyph">!</span>
+        <span id="confirm-tag">confirm action</span>
+      </div>
+      <div class="modal-body">
+        <h2 id="confirm-title">are you sure?</h2>
+        <p id="confirm-body" style="white-space: pre-wrap;">This will overwrite your texture.</p>
+        <div class="preview" id="confirm-preview" style="display:none;">
+          <span class="chip"><span id="confirm-preview-color"></span></span>
+          <span id="confirm-preview-text">fill every pixel with current color</span>
+        </div>
+      </div>
+      <div class="modal-foot">
+        <button class="btn btn-ghost" id="confirm-cancel">cancel</button>
+        <button class="btn btn-primary" id="confirm-ok">yes, do it</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pre-load palette via JS -->
+  <script>
+    window.DEFAULT_SWATCHES = [
+      "#0E0A14","#161020","#2A2236","#3A2F48","#665A4C","#9A8A75","#D6C7B0","#F6ECDD","#FFFFFF","#FFC857","#FF6A3D","#FF4F70",
+      "#E94BD6","#5AB6FF","#7FE0A8","#E04848","#291B11","#3F2C1C","#5B3B2F","#8A6447","#B5896A","#D6A77E","#F0CDB0","#FFE3C0",
+      "#1A1F30","#2B3658","#3B4A75","#3AAFE3","#258AB8","#1B6B91","#3DAE74","#1C7C4A","#0E4A2C","#523B2A","#9C6B3A","#000000"
+    ];
+  </script>
+
+  <!-- Three.js + JSZip (pinned) -->
+  <script src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
+  <script src="https://unpkg.com/jszip@3.10.1/dist/jszip.min.js"></script>
+
+  <!-- App scripts -->
+  <script src="models.js"></script>
+  <script src="model3d.js"></script>
+  <script src="app.js"></script>
+  <script src="tweaks.js"></script>
+
+  <!-- Build swatches grid -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const grid = document.getElementById("swatches");
+      const t = document.createElement("button");
+      t.className = "swatch transparent";
+      t.title = "transparent";
+      t.addEventListener("click", () => {
+        const btn = document.querySelector('.tool-btn[data-tool="eraser"]');
+        if (btn) btn.click();
+      });
+      grid.appendChild(t);
+      window.DEFAULT_SWATCHES.forEach(hex => {
+        const s = document.createElement("button");
+        s.className = "swatch";
+        s.dataset.color = hex.toUpperCase();
+        s.style.background = hex;
+        grid.appendChild(s);
+      });
+    });
+  </script>
+</body>
+</html>
